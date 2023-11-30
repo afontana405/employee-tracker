@@ -13,7 +13,7 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
     if (err) throw err
-    // startMenu();
+    startMenu();
 })
 
 const startMenu = () => {
@@ -22,11 +22,11 @@ const startMenu = () => {
             type: 'rawlist',
             name: 'endPoint',
             message: 'What would you like to do?',
-            choices: ['View all employyes', 'Add employee', 'Update employee role', 'View all roles', 'Add role', 'View all departments', 'Add department', 'Quit'],
-        }
+            choices: ['View all employees', 'Add employee', 'Update employee role', 'View all roles', 'Add role', 'View all departments', 'Add department', 'Quit'],
+        },
     ])
     .then(data => {
-        switch (data.endpoint) {
+        switch (data.endPoint) {
             case 'View all employees':
                 viewAllEmployees();
                 break;
