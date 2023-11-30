@@ -22,7 +22,7 @@ const startMenu = () => {
             type: 'rawlist',
             name: 'endPoint',
             message: 'What would you like to do?',
-            choices: ['View all employyes', 'Add employee', 'Update employee role', 'View all roles', 'Add role', 'Update role', 'View all departments', 'Add department', 'Update department', 'Quit'],
+            choices: ['View all employyes', 'Add employee', 'Update employee role', 'View all roles', 'Add role', 'View all departments', 'Add department', 'Quit'],
         }
     ])
     .then(data => {
@@ -34,7 +34,7 @@ const startMenu = () => {
                 addEmployee();
                 break;
             case 'Update employee role':
-                // updateEmployeeRole();
+                updateEmployeeRole();
                 break;
             case 'View all roles':
                 viewAllRoles();
@@ -42,17 +42,11 @@ const startMenu = () => {
             case 'Add role':
                 addRole();
                 break;
-            case 'Update role':
-                // updateRole();
-                break;
             case 'View all departments':
                 viewDepartments();
                 break;
             case 'Add department':
                 addDepartment();
-                break;
-            case 'Update department':
-                // updateDepartment();
                 break;
             case 'Quit':
                 db.end();
@@ -62,19 +56,23 @@ const startMenu = () => {
     })
 }
 
-// showTable('employees');
-// showTable('roles');
-// showTable('departments');
+// viewTable('employees');
+// viewTable('roles');
+// viewTable('departments');
 
-// function showTable(tableName) {
-//     const sql = 'SELECT * FROM table = ?'
+// function viewTable(tableName) {
+//     const sql = 'SELECT * FROM ?';
 //     const params = [tableName];
 //     db.query(sql, params, (err, res) => {
 //         if (err) throw err;
 //         console.table(res);
-//         startMenu();
 //     })
+//     // startMenu();
 // }
+
+// viewAllEmployees();
+// viewAllRoles();
+// viewDepartments();
 
 function viewDepartments() {
     const sql = 'SELECT * FROM departments';
@@ -172,6 +170,29 @@ function addDepartment() {
         const sql = 'INSERT INTO departments (name) VALUES (?)';
         db.query(sql, data.department, (req, res) => {
             console.log('role created!');
+            startMenu();
+        })
+    })
+}
+
+function updateEmployeeRole() {
+    inquirer.prompt([
+        {
+            type: 'test',
+            name: 'employee',
+            message: "What's the id of the employee you want to update?",
+        },
+        {
+            type: 'text',
+            name: 'newRole',
+            message: "what's the id of the new role for this employee?",
+        }
+    ])
+    .then(data => {
+        const sql = 'UPDATE employees SET role_id = ? WHERE ID = ?';
+        const params = [data.newRole, data.employee];
+        db.query(sql, params, (req, res) => {
+            console.log("employee's role updated!");
             startMenu();
         })
     })
