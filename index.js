@@ -40,7 +40,7 @@ const startMenu = () => {
                 viewAllRoles();
                 break;
             case 'Add role':
-                // addRole();
+                addRole();
                 break;
             case 'Update role':
                 // updateRole();
@@ -49,7 +49,7 @@ const startMenu = () => {
                 viewDepartments();
                 break;
             case 'Add department':
-                // addDepartment();
+                addDepartment();
                 break;
             case 'Update department':
                 // updateDepartment();
@@ -130,5 +130,49 @@ function addEmployee() {
             console.log('employee added!');
             startMenu();
         });
+    })
+}
+
+function addRole() {
+    inquirer.prompt([
+        {
+            type: 'text',
+            name: 'newRole',
+            message: 'What is the name of the new role?',
+        },
+        {
+            type: 'text',
+            name: 'salary',
+            message: 'What is the salary of the new role?',
+        },
+        {
+            name: 'text',
+            name: 'departmentID',
+            message: 'What is the department ID of the new role?',
+        }
+    ])
+    .then(data => {
+        const sql = "INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)";
+        db.query(sql, [data.newRole, data.salary, data.departmentID], (req, res) => {
+            console.log('role created!');
+            startMenu();
+        })
+    })
+}
+
+function addDepartment() {
+    inquirer.prompt([
+        {
+            type: 'text',
+            name: 'department',
+            message: 'What is the name of the new department?',
+        },
+    ])
+    .then(data => {
+        const sql = 'INSERT INTO departments (name) VALUES (?)';
+        db.query(sql, data.department, (req, res) => {
+            console.log('role created!');
+            startMenu();
+        })
     })
 }
