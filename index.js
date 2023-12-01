@@ -66,35 +66,6 @@ function viewTable(tableName) {
     const timeout = setTimeout(startMenu, 1000);
 }
 
-// viewAllEmployees();
-// viewAllRoles();
-// viewDepartments();
-
-// function viewDepartments() {
-//     const sql = 'SELECT * FROM departments';
-//     db.query(sql, (err, res) => {
-//         if (err) throw err;
-//         console.table(res);
-//         startMenu();
-//     })
-// }
-// function viewAllRoles() {
-//     const sql = 'SELECT * FROM roles';
-//     db.query(sql, (err, res) => {
-//         if (err) throw err;
-//         console.table(res);
-//         startMenu();
-//     })
-// }
-// function viewAllEmployees() {
-//     const sql = 'SELECT * FROM employees';
-//     db.query(sql, (err, res) => {
-//         if (err) throw err;
-//         console.table(res);
-//         startMenu();
-//     })
-// }
-
 function addEmployee() {
     inquirer.prompt([
         {
