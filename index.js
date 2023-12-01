@@ -28,7 +28,7 @@ const startMenu = () => {
     .then(data => {
         switch (data.endPoint) {
             case 'View all employees':
-                viewAllEmployees();
+                viewTable('employees');
                 break;
             case 'Add employee':
                 addEmployee();
@@ -37,7 +37,7 @@ const startMenu = () => {
                 updateEmployeeRole();
                 break;
             case 'View all roles':
-                viewAllRoles();
+                viewTable('roles');
                 break;
             case 'Add role':
                 addRole();
@@ -46,7 +46,7 @@ const startMenu = () => {
                 viewDepartments();
                 break;
             case 'Add department':
-                addDepartment();
+                viewTable('departments');
                 break;
             case 'Quit':
                 db.end();
@@ -56,48 +56,44 @@ const startMenu = () => {
     })
 }
 
-// viewTable('employees');
-// viewTable('roles');
-// viewTable('departments');
-
-// function viewTable(tableName) {
-//     const sql = 'SELECT * FROM ?';
-//     const params = [tableName];
-//     db.query(sql, params, (err, res) => {
-//         if (err) throw err;
-//         console.table(res);
-//     })
-//     // startMenu();
-// }
+function viewTable(tableName) {
+    const sql = 'SELECT * FROM ??';
+    const params = [tableName];
+    db.query(sql, params, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+    })
+    const timeout = setTimeout(startMenu, 1000);
+}
 
 // viewAllEmployees();
 // viewAllRoles();
 // viewDepartments();
 
-function viewDepartments() {
-    const sql = 'SELECT * FROM departments';
-    db.query(sql, (err, res) => {
-        if (err) throw err;
-        console.table(res);
-        startMenu();
-    })
-}
-function viewAllRoles() {
-    const sql = 'SELECT * FROM roles';
-    db.query(sql, (err, res) => {
-        if (err) throw err;
-        console.table(res);
-        startMenu();
-    })
-}
-function viewAllEmployees() {
-    const sql = 'SELECT * FROM employees';
-    db.query(sql, (err, res) => {
-        if (err) throw err;
-        console.table(res);
-        startMenu();
-    })
-}
+// function viewDepartments() {
+//     const sql = 'SELECT * FROM departments';
+//     db.query(sql, (err, res) => {
+//         if (err) throw err;
+//         console.table(res);
+//         startMenu();
+//     })
+// }
+// function viewAllRoles() {
+//     const sql = 'SELECT * FROM roles';
+//     db.query(sql, (err, res) => {
+//         if (err) throw err;
+//         console.table(res);
+//         startMenu();
+//     })
+// }
+// function viewAllEmployees() {
+//     const sql = 'SELECT * FROM employees';
+//     db.query(sql, (err, res) => {
+//         if (err) throw err;
+//         console.table(res);
+//         startMenu();
+//     })
+// }
 
 function addEmployee() {
     inquirer.prompt([
@@ -124,9 +120,10 @@ function addEmployee() {
     ])
     .then(data => {
         const sql = "INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
-        db.query(sql, [data.firstName, data.lastName, data.role, data.manager], (req, res) => {
+        db.query(sql, [data.firstName, data.lastName, data.role, data.manager], (err, res) => {
+            if (err) throw err;
             console.log('employee added!');
-            startMenu();
+            const timeout = setTimeout(startMenu, 1000);
         });
     })
 }
@@ -151,9 +148,9 @@ function addRole() {
     ])
     .then(data => {
         const sql = "INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)";
-        db.query(sql, [data.newRole, data.salary, data.departmentID], (req, res) => {
+        db.query(sql, [data.newRole, data.salary, data.departmentID], (err, res) => {
             console.log('role created!');
-            startMenu();
+            const timeout = setTimeout(startMenu, 1000);
         })
     })
 }
@@ -170,7 +167,7 @@ function addDepartment() {
         const sql = 'INSERT INTO departments (name) VALUES (?)';
         db.query(sql, data.department, (req, res) => {
             console.log('role created!');
-            startMenu();
+            const timeout = setTimeout(startMenu, 1000);
         })
     })
 }
@@ -191,9 +188,9 @@ function updateEmployeeRole() {
     .then(data => {
         const sql = 'UPDATE employees SET role_id = ? WHERE ID = ?';
         const params = [data.newRole, data.employee];
-        db.query(sql, params, (req, res) => {
+        db.query(sql, params, (err, res) => {
             console.log("employee's role updated!");
-            startMenu();
+            const timeout = setTimeout(startMenu, 1000);
         })
     })
 }
