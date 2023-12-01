@@ -43,10 +43,10 @@ const startMenu = () => {
                 addRole();
                 break;
             case 'View all departments':
-                viewDepartments();
+                viewTable('departments');
                 break;
             case 'Add department':
-                viewTable('departments');
+                addDepartment();
                 break;
             case 'Quit':
                 db.end();
@@ -165,7 +165,8 @@ function addDepartment() {
     ])
     .then(data => {
         const sql = 'INSERT INTO departments (name) VALUES (?)';
-        db.query(sql, data.department, (req, res) => {
+        db.query(sql, data.department, (err, res) => {
+            if (err) throw err;
             console.log('role created!');
             const timeout = setTimeout(startMenu, 1000);
         })
@@ -189,6 +190,7 @@ function updateEmployeeRole() {
         const sql = 'UPDATE employees SET role_id = ? WHERE ID = ?';
         const params = [data.newRole, data.employee];
         db.query(sql, params, (err, res) => {
+            if (err) throw err;
             console.log("employee's role updated!");
             const timeout = setTimeout(startMenu, 1000);
         })
