@@ -60,8 +60,8 @@ function viewTable(tableName) {
     const sql = 'SELECT * FROM ??';
     const params = [tableName];
     db.query(sql, params, (err, res) => {
+        if (res) console.table(res);
         if (err) throw err;
-        console.table(res);
     })
     const timeout = setTimeout(startMenu, 1000);
 }
@@ -91,9 +91,10 @@ function addEmployee() {
     ])
     .then(data => {
         const sql = "INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
-        db.query(sql, [data.firstName, data.lastName, data.role, data.manager], (err, res) => {
+        const params = [data.firstName, data.lastName, data.role, data.manager];
+        db.query(sql, params, (err, res) => {
+            if (res) console.log('employee added!');
             if (err) throw err;
-            console.log('employee added!');
             const timeout = setTimeout(startMenu, 1000);
         });
     })
@@ -119,8 +120,10 @@ function addRole() {
     ])
     .then(data => {
         const sql = "INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)";
-        db.query(sql, [data.newRole, data.salary, data.departmentID], (err, res) => {
-            console.log('role created!');
+        const params = [data.newRole, data.salary, data.departmentID]
+        db.query(sql, params, (err, res) => {
+            if (res) console.log('role created!');
+            if (err) throw err;
             const timeout = setTimeout(startMenu, 1000);
         })
     })
@@ -136,9 +139,10 @@ function addDepartment() {
     ])
     .then(data => {
         const sql = 'INSERT INTO departments (name) VALUES (?)';
-        db.query(sql, data.department, (err, res) => {
+        const params = [data.department];
+        db.query(sql, params, (err, res) => {
+            if (res) console.log('role created!');
             if (err) throw err;
-            console.log('role created!');
             const timeout = setTimeout(startMenu, 1000);
         })
     })
@@ -161,8 +165,8 @@ function updateEmployeeRole() {
         const sql = 'UPDATE employees SET role_id = ? WHERE ID = ?';
         const params = [data.newRole, data.employee];
         db.query(sql, params, (err, res) => {
+            if (res) console.log("employee's role updated!");
             if (err) throw err;
-            console.log("employee's role updated!");
             const timeout = setTimeout(startMenu, 1000);
         })
     })
