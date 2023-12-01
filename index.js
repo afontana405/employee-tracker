@@ -22,7 +22,7 @@ const startMenu = () => {
             type: 'rawlist',
             name: 'endPoint',
             message: 'What would you like to do?',
-            choices: ['View all employees', 'Add employee', 'Update employee role', 'View all roles', 'Add role', 'View all departments', 'Add department', 'Quit'],
+            choices: ['View all employees', 'View all roles', 'View all departments', 'Update employee role', 'Add employee', 'Add role', 'Add department', 'Quit'],
         },
     ])
     .then(data => {
@@ -95,8 +95,8 @@ function addEmployee() {
         db.query(sql, params, (err, res) => {
             if (res) console.log('employee added!');
             if (err) throw err;
-            const timeout = setTimeout(startMenu, 1000);
         });
+        const timeout = setTimeout(startMenu, 1000);
     })
 }
 
@@ -124,8 +124,8 @@ function addRole() {
         db.query(sql, params, (err, res) => {
             if (res) console.log('role created!');
             if (err) throw err;
-            const timeout = setTimeout(startMenu, 1000);
         })
+        const timeout = setTimeout(startMenu, 1000);
     })
 }
 
@@ -143,8 +143,8 @@ function addDepartment() {
         db.query(sql, params, (err, res) => {
             if (res) console.log('role created!');
             if (err) throw err;
-            const timeout = setTimeout(startMenu, 1000);
         })
+        const timeout = setTimeout(startMenu, 1000);
     })
 }
 
@@ -167,7 +167,7 @@ function updateEmployeeRole() {
         db.query(sql, params, (err, res) => {
             if (res) console.log("employee's role updated!");
             if (err) throw err;
-            const timeout = setTimeout(startMenu, 1000);
         })
+        const timeout = setTimeout(startMenu, 1000);
     })
 }
